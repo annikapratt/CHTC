@@ -1,0 +1,31 @@
+# HTC Submit File
+
+# Name the batch job
+batch_name = "earlgrey" 
+
+# make sure the job is sent to a machine that has access to staging
+Requirements = (Target.HasCHTCStaging == true)
+
+# Provide HTCondor with the name of the Docker container
+container_image = docker://tobybaril/earlgrey_dfam3.7:latest
+universe = container
+
+executable = earlgrey.sh
+should_transfer_files = YES
+when_to_transfer_output = ON_EXIT
+
+# make sure to create a folder called logs where the logs can go
+log = logs/job_earlgrey.log
+error = logs/job_earlgrey.err
+output = logs/job_earlgrey.out
+
+# computaitonal needs vary drastically between genomes based on size and repeat content
+request_cpus = 16
+request_memory = 100GB
+request_disk = 20GB
+
+# if the job runs out of memory, it will double the amount of memory and queue again
+retry_request_memory_increase = RequestMemory * 2
+retry_request_memory_max = 800GB
+
+queue
