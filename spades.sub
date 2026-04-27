@@ -1,0 +1,29 @@
+# job.sub
+
+# Name the batch job
+batch_name = "spades" 
+
+Requirements = (Target.HasCHTCStaging == true)
+
+universe = docker
+docker_image = docker://staphb/spades:latest
+
+arguments="$(SPECIES) $(OUTPUT_PATH)"
+
+request_cpus = 16
+request_memory = 64GB
+request_disk = 64GB
+
+# Specify the script as the executable
+executable = spades.sh
+transfer_executable = TRUE
+
+# Ensure the script and necessary files are accessible
+should_transfer_files = IF_NEEDED
+when_to_transfer_output = ON_EXIT
+
+log = job_spades_$(SPECIES).log
+output = job_spades_$(SPECIES).out
+error = job_spades_$(SPECIES).err
+
+queue SPECIES,OUTPUT_PATH from spades_parameters.txt
