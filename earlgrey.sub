@@ -10,6 +10,8 @@ Requirements = (Target.HasCHTCStaging == true)
 container_image = docker://tobybaril/earlgrey_dfam3.7:latest
 universe = container
 
+arguments = "$(SPECIES)"
+
 executable = earlgrey.sh
 should_transfer_files = YES
 when_to_transfer_output = ON_EXIT
@@ -28,4 +30,4 @@ request_disk = 20GB
 retry_request_memory_increase = RequestMemory * 2
 retry_request_memory_max = 800GB
 
-queue
+queue SPECIES from earlgrey_parameters.txt
