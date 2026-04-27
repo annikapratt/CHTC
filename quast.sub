@@ -1,0 +1,30 @@
+# job.sub
+
+# Name the batch job
+batch_name = "quast" 
+
+Requirements = (Target.HasCHTCStaging == true)
+
+arguments = "$(SPECIES) $(INPUT_FASTA)"
+
+universe = docker
+docker_image = docker://staphb/quast:latest
+
+request_cpus = 6
+request_memory = 12GB
+request_disk = 12GB
+
+# Specify the script as the executable
+executable = quast.sh
+transfer_executable = TRUE
+
+# Ensure the script and necessary files are accessible
+#transfer_input_files = 
+should_transfer_files = IF_NEEDED
+when_to_transfer_output = ON_EXIT
+
+log = job_quast_$(SPECIES).log
+output = job_quast_$(SPECIES).out
+error = job_quast_$(SPECIES).err
+
+queue SPECIES,INPUT_FASTA from quast_parameters.txt
