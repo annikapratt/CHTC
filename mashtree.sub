@@ -1,0 +1,22 @@
+# HTC Submit File
+
+batch_name = "mashtree"
+
+Requirements = (Target.HasCHTCStaging == true)
+ 
+# Provide HTCondor with the name of the Docker container
+container_image = docker://staphb/mashtree:latest
+
+executable = mashtree.sh
+should_transfer_files = YES
+when_to_transfer_output = ON_EXIT
+ 
+log = logs/job_mashtree.log
+error = logs/job_mashtree.err
+output = logs/job_mashtree.out
+ 
+request_cpus = 2
+request_memory = 4GB
+request_disk = 4GB
+ 
+queue
